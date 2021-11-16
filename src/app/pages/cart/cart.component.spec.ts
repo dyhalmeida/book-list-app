@@ -28,4 +28,12 @@ describe('cart.component', () => {
 
   });
 
+  beforeEach(() => {
+
+    fixture = TestBed.createComponent(CartComponent);
+    cartComponent = fixture.componentInstance;
+    fixture.detectChanges();
+
+  });
+
 });
