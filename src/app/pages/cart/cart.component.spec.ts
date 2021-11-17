@@ -36,4 +36,10 @@ describe('cart.component', () => {
 
   });
 
+  it('Should create', () => {
+
+    expect(cartComponent).toBeTruthy();
+
+  });
+
 });
