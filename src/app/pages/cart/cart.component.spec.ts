@@ -122,4 +122,36 @@ describe('cart.component', () => {
 
   });
 
+  it('Should call _clearListCartBook and to check works correctly', () => {
+
+    const bookService = fixture.debugElement.injector.get(BookService);
+
+    const spy01 = spyOn(cartComponent as any, '_clearListCartBook').and.callThrough();
+    const spy02 = spyOn(bookService, 'removeBooksFromCart').and.callFake(() => null);
+
+    cartComponent.listCartBook = [
+      {
+        author: '',
+        name: '',
+        isbn: '',
+        amount: 2,
+        price: 10,
+      },
+      {
+        author: '',
+        name: '',
+        isbn: '',
+        amount: 3,
+        price: 10,
+      },
+    ];
+
+    cartComponent.onClearBooks();
+
+    expect(spy01).toHaveBeenCalled();
+    expect(spy02).toHaveBeenCalled();
+    expect(cartComponent.listCartBook.length).toBe(0);
+
+  });
+
 });
