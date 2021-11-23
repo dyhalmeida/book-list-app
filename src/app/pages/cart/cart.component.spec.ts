@@ -68,4 +68,58 @@ describe('cart.component', () => {
 
   });
 
+  it('Should call onInputNumberChange and increments correctly', () => {
+
+    const action = 'plus';
+    const book: Book = {
+      author: '',
+      name: '',
+      isbn: '',
+      amount: 2,
+      price: 10,
+    };
+
+    /** Injeta corretamente o serviço no teste */
+    const bookService = fixture.debugElement.injector.get(BookService);
+    const spy01 = spyOn(bookService, 'updateAmountBook').and.callFake(() => undefined);
+    const spy02 = spyOn(cartComponent, 'getTotalPrice').and.callFake(() => undefined);
+
+    expect(book.amount).toBe(2);
+
+    cartComponent.onInputNumberChange(action, book);
+
+    expect(spy01).toHaveBeenCalled();
+    expect(spy02).toHaveBeenCalled();
+
+    expect(book.amount).toBe(3);
+
+  });
+
+  it('Should call onInputNumberChange and decrements correctly', () => {
+
+    const action = 'minus';
+    const book: Book = {
+      author: '',
+      name: '',
+      isbn: '',
+      amount: 2,
+      price: 10,
+    };
+
+    /** Injeta corretamente o serviço no teste */
+    const bookService = fixture.debugElement.injector.get(BookService);
+    const spy01 = spyOn(bookService, 'updateAmountBook').and.callFake(() => undefined);
+    const spy02 = spyOn(cartComponent, 'getTotalPrice').and.callFake(() => undefined);
+
+    expect(book.amount).toBe(2);
+
+    cartComponent.onInputNumberChange(action, book);
+
+    expect(spy01).toHaveBeenCalled();
+    expect(spy02).toHaveBeenCalled();
+
+    expect(book.amount).toBe(1);
+
+  });
+
 });
