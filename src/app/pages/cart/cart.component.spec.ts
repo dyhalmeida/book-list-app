@@ -154,4 +154,33 @@ describe('cart.component', () => {
 
   });
 
+  it('Should call private _clearListCartBook and to check works correctly', () =>{
+
+    cartComponent.listCartBook = [
+      {
+        author: '',
+        name: '',
+        isbn: '',
+        amount: 2,
+        price: 10,
+      },
+      {
+        author: '',
+        name: '',
+        isbn: '',
+        amount: 3,
+        price: 10,
+      },
+    ];
+
+    const bookService = fixture.debugElement.injector.get(BookService);
+    const spy01 = spyOn(bookService, 'removeBooksFromCart').and.callFake(() => null);
+
+    cartComponent['_clearListCartBook']();
+
+    expect(spy01).toHaveBeenCalled();
+    expect(cartComponent.listCartBook.length === 0).toBeTrue();
+
+  });
+
 });
