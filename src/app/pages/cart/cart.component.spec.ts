@@ -9,6 +9,7 @@ describe('cart.component', () => {
 
   let cartComponent: CartComponent;
   let fixture: ComponentFixture<CartComponent>;
+  let bookService: BookService;
 
   beforeEach(() => {
 
@@ -34,6 +35,8 @@ describe('cart.component', () => {
     fixture = TestBed.createComponent(CartComponent);
     cartComponent = fixture.componentInstance;
     fixture.detectChanges();
+    bookService = fixture.debugElement.injector.get(BookService);
+    spyOn(bookService, 'getBooksFromCart').and.callFake(() => null);
 
   });
 
