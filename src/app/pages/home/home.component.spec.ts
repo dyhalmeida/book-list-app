@@ -6,6 +6,29 @@ import { Book } from "src/app/models/book.model";
 import { BookService } from "src/app/services/book.service";
 import { HomeComponent } from "./home.component";
 
+/** Mock listBook */
+const listBook: Book[] = [
+  {
+    author: '',
+    name: '',
+    isbn: '',
+    amount: 2,
+    price: 10,
+  },
+  {
+    author: '',
+    name: '',
+    isbn: '',
+    amount: 3,
+    price: 10,
+  },
+];
+
+/** Mock bookService */
+const BookServiceMock = {
+  getBooks: () => of(listBook)
+}
+
 describe('home.component', () => {
 
   let homeComponent: HomeComponent;
@@ -22,7 +45,10 @@ describe('home.component', () => {
         HomeComponent,
       ],
       providers: [
-        BookService,
+        {
+          provide: BookService,
+          useValue: BookServiceMock
+        }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
@@ -40,28 +66,7 @@ describe('home.component', () => {
 
   it('Should call getBooks and get books from the subscription', () => {
 
-    const listBook: Book[] = [
-      {
-        author: '',
-        name: '',
-        isbn: '',
-        amount: 2,
-        price: 10,
-      },
-      {
-        author: '',
-        name: '',
-        isbn: '',
-        amount: 3,
-        price: 10,
-      },
-    ];
-
-    const spy01 = spyOn(bookService, 'getBooks').and.returnValue(of(listBook));
-
     homeComponent.getBooks();
-
-    expect(spy01).toHaveBeenCalled();
     expect(homeComponent.listBook.length === 2).toBeTrue();
 
   });
