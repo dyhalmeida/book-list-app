@@ -70,4 +70,50 @@ describe('book.service', () => {
 
   });
 
+  it('should be call getBooksFromCart and return empty array when localStorage is empty', () => {
+
+    const storageMock = {};
+
+    const spy01 = spyOn(localStorage, 'getItem').and.callFake((key: string) => {
+      return storageMock[key] ? JSON.stringify(storageMock[key]) : null;
+    });
+
+    const listBook = bookService.getBooksFromCart();
+    expect(spy01).toHaveBeenCalled();
+    expect(listBook.length).toBe(0);
+
+  });
+
+  it('should be call getBooksFromCart and return array of books when localStorage is not empty', () => {
+
+    let storageMock = {
+      'listCartBook': [
+        {
+          author: '',
+          name: '',
+          isbn: '',
+          amount: 2,
+          price: 10,
+        },
+        {
+          author: '',
+          name: '',
+          isbn: '',
+          amount: 3,
+          price: 10,
+        },
+      ],
+    };
+
+
+    const spy01 = spyOn(localStorage, 'getItem').and.callFake((key: string) => {
+      return storageMock[key] ? JSON.stringify(storageMock[key]) : null;
+    });
+
+    const listBook = bookService.getBooksFromCart();
+    expect(spy01).toHaveBeenCalled();
+    expect(listBook.length !== 0).toBeTrue();
+
+  });
+
 });
