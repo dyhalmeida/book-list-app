@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import { Book } from "../models/book.model";
 import { BookService } from "./book.service";
 
-fdescribe('book.service', () => {
+describe('book.service', () => {
 
   let bookService: BookService;
   let httpMock: HttpTestingController;
@@ -154,6 +154,36 @@ fdescribe('book.service', () => {
     expect(spy01).toHaveBeenCalled();
     expect(spy02).toHaveBeenCalled();
     expect(spy03).toHaveBeenCalled();
+
+  });
+
+  it('should be call removeBooksFromCart and remove a book on the localstorage correctly', () => {
+    const storageMock = {};
+    const book: Book = {
+      author: '',
+      name: '',
+      isbn: '',
+      amount: 2,
+      price: 10,
+    };
+
+    const spy01 = spyOn(localStorage, 'getItem').and.callFake((key: string) => {
+      return storageMock[key] ? JSON.stringify(storageMock[key]) : null;
+    });
+
+    const spy02 = spyOn(localStorage, 'setItem').and.callFake((key: string, value: string) => {
+      return storageMock[key] = value;
+    });
+
+    bookService.addBookToCart(book);
+    let listBook = bookService.getBooksFromCart();
+    expect(listBook.length !== 0).toBe(true);
+    bookService.removeBooksFromCart();
+    listBook = bookService.getBooksFromCart();
+    expect(listBook.length === 0).toBe(true);
+
+    expect(spy01).toHaveBeenCalled();
+    expect(spy02).toHaveBeenCalled();
 
   });
 
