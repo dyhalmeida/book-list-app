@@ -1,10 +1,13 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { Router } from "@angular/router";
-import { RouterTestingModule } from "@angular/router/testing";
 import { NavComponent } from "./nav.component";
 
-class ComponentTestRoute {}
+const routerMock = {
+  navigate: () => {
+
+  }
+}
 
 describe('nav.component.', () => {
 
@@ -15,20 +18,16 @@ describe('nav.component.', () => {
 
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule.withRoutes([
-          {
-            path: 'home', component: ComponentTestRoute,
-          },
-          {
-            path: 'cart', component: ComponentTestRoute,
-          }
-        ])
+
       ],
       declarations: [
         NavComponent,
       ],
       providers: [
-
+        {
+          provide: Router,
+          useValue: routerMock,
+        }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();
@@ -52,11 +51,8 @@ describe('nav.component.', () => {
     const router = TestBed.inject(Router);
     const spy01 = spyOn(router, 'navigate');
 
-    navComponent.navTo('home');
-    expect(spy01).toHaveBeenCalledWith(['/home']);
-
-    navComponent.navTo('cart');
-    expect(spy01).toHaveBeenCalledWith(['/cart']);
+    navComponent.navTo('');
+    expect(spy01).toHaveBeenCalled();
 
   });
 
